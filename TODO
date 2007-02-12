@@ -1,0 +1,46 @@
+Development plan
+~~~~~~~~~~~~~~~~
+Goals for 0.0.0 (alpha)
+ * Playable game with gameplay similar to original
+ * Code is merely ugly C rewrite of original ugly Delphi code
+ * All-original graphics (with original bugs)
+
+Goals for 0.99.0 (beta)
+ * Sound
+ * Menu/highscores
+ * Readable & clean code
+ * All TODO items below done
+ * Windows port
+
+Goals for 1.0.0 (release)
+ * Beta testing complete
+ * Finished game product
+
+TODO
+~~~~
+User-visible software changes
+ * Menu
+ * High scores
+ * Options (?)
+ * Cmdline args (at least --fullscreen/--window/--level)
+
+Graphics
+ * Get all sprites from original delphi project
+ * Convert everything to 8bpp PNG with transparency
+ * Fix some bugs in graphics (zenitka & plane sprites)
+
+Code cleanup
+ * Unbind speed/event frequencity values from FPS
+ * Convert all angle units to radians
+ * Convert all coordinates to float's (especially rotation)
+ * Convert constants in main.h and initialization in main.c
+   to one clean entity
+ * Split main.c into several files (by object type, possibly)
+ * Code commented through
+
+Sound
+ * Sound support
+
+BUGS
+~~~~
+ * 4 troops landed -> when 5'th landing, it ugly disappers
