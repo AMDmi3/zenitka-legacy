@@ -1,0 +1,42 @@
+              zenitka - excessive paratrooper clone
+             =======================================
+
+History
+~~~~~~~
+Zenitka is a game by Ilia Piljev, originally written for Windows
+in Delphi/DelphiX. The last version was released in 2002, then the
+website was closed, and the game nearly forgotten. In 2006, I've
+obtained game source code from author with intention to rewrite the
+game in portable way using cross-platform libraries. Now, behold
+the result. Code is rather ugly, as I've just rewritten Delphi code
+in C, to copy game behavior 1:1, but I hope to improve code quality,
+as well as turn Zenitka into complete game.
+
+PS. `Zenitka' means `air-defence gun' in Russian :)
+
+Command line arguments
+~~~~~~~~~~~~~~~~~~~~~~
+*TODO*
+
+Building & Installation
+~~~~~~~~~~~~~~~~~~~~~~~
+To build zenitka, you need:
+    - SCons (http://www.scons.org)
+    - SDL library (http://www.libsdl.org)
+    - SDL_image, SDL_gfx libs
+
+Once you obtain all of these, just run in this directory:
+
+% scons
+
+*TODO: installation*
+
+Keyboard controls
+~~~~~~~~~~~~~~~~~
+Left/right    Rotate gun
+Space/shift   Fire
+Q, Esc        Quit
+
+Mouse controls
+~~~~~~~~~~~~~~
+*TODO*

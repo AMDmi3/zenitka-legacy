@@ -37,6 +37,7 @@ Code cleanup
    to one clean entity
  * Split main.c into several files (by object type, possibly)
  * Code commented through
+ * Rewrite everything in C++
 
 Sound
  * Sound support
