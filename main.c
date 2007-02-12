@@ -193,12 +193,10 @@ void HelicopterCreate() {
 	iHelicoptersCount++;
 	if (iHelicoptersCount == iHelicoptersFreq) {
 		iHelicoptersCount = 0;
-		i = 0;
-		while (Helicopter[i].condition != FreeForFlight) {
-			i++;
-			if (i >= MaxHelicopters)
-				return;
-		}
+
+		for (i = 0; Helicopter[i].condition != FreeForFlight && i < MaxHelicopters; i++);
+		if (i == MaxHelicopters)
+			return;
 
 		if (rand() & 1) {
 			Helicopter[i].Direction = HDirectionRight;
@@ -222,12 +220,11 @@ void PlaneCreate() {
 	iPlanesCount++;
 	if (iPlanesCount == iPlanesFreq) {
 		iPlanesCount = 0;
-		i = 0;
-		while (Plane[i].condition != FreeForFlight) {
-			i = i+1;
-			if (i >= MaxPlanes)
-				return;
-		}
+
+		for (i = 0; Plane[i].condition != FreeForFlight && i < MaxPlanes; i++);
+		if (i == MaxPlanes)
+			return;
+
 		switch (rand() & 1) {
 		case 0:
 			Plane[i].Direction = PDirectionRight;
