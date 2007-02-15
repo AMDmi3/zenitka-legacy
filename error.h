@@ -1,6 +1,6 @@
 /*                                                                                                                                                                                                  
  * zenitka - excessive Paratrooper clone                                                                                                                                                            
- * Copyright (C) 2000-2002 Ilia Piljev <ell_1@mail.ru>                                                                                                                                              
+ * Copyright (C) 2000-2002 Ilya Pilev <ell_1@mail.ru>                                                                                                                                              
  *               2006-2007 Dmitry Marakasov <amdmi3@amdmi3.ru>                                                                                                                                      
  *                                                                                                                                                                                                  
  * This program is free software; you can redistribute it and/or modify                                                                                                                             
