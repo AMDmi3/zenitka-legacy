@@ -1,9 +1,9 @@
 Development plan
 ~~~~~~~~~~~~~~~~
-Goals for 0.0.0 (alpha)
+Goals for 0.1.0 (alpha)
  * Playable game with gameplay similar to original
  * Code is merely ugly C rewrite of original ugly Delphi code
- * All-original graphics (with original bugs)
+ * Original graphics
 
 Goals for 0.99.0 (beta)
  * Sound
@@ -24,11 +24,6 @@ User-visible software changes
  * Options (?)
  * Cmdline args (at least --fullscreen/--window/--level)
 
-Graphics
- * Get all sprites from original delphi project
- * Convert everything to 8bpp PNG with transparency
- * Fix some bugs in graphics (zenitka & plane sprites)
-
 Code cleanup
  * Unbind speed/event frequencity values from FPS
  * Convert all angle units to radians
@@ -42,6 +37,11 @@ Code cleanup
 Sound
  * Sound support
 
+Other
+ * Move to CMake
+ * Test under linux
+ * Windows build
+
 BUGS
 ~~~~
- * 4 troops landed -> when 5'th landing, it ugly disappers
+ * 4 troops landed -> when 5th's landing, it ugly disappers
