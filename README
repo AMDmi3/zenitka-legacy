@@ -14,28 +14,39 @@ as well as turn Zenitka into complete game.
 
 PS. `Zenitka' means `air-defence gun' in Russian :)
 
+
 Command line arguments
 ~~~~~~~~~~~~~~~~~~~~~~
 *TODO*
 
+
 Building & Installation
 ~~~~~~~~~~~~~~~~~~~~~~~
 To build zenitka, you need:
-    - SCons (http://www.scons.org)
+    - cmake (http://www.cmake.org)
     - SDL library (http://www.libsdl.org)
     - SDL_image, SDL_gfx libs
 
-Once you obtain all of these, just run in this directory:
+* If you just want to try zenitka without installing it systemwide, just run:
 
-% scons
+% cmake .
+% make
 
-*TODO: installation*
+* If you want to install gaia systemwide, run:
+
+% cmake -DWITH_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/usr/local
+% make
+% make install
+
+You may omit -DCMAKE_INSTALL_PREFIX, which is /usr/local by default
+
 
 Keyboard controls
 ~~~~~~~~~~~~~~~~~
 Left/right    Rotate gun
 Space/shift   Fire
 Q, Esc        Quit
+
 
 Mouse controls
 ~~~~~~~~~~~~~~
