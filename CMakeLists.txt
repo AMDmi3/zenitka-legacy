@@ -21,7 +21,7 @@ else(WITH_INSTALL)
 endif(WITH_INSTALL)
 
 # defs
-set(ZENITKA_VERSION "0.0.1")
+set(ZENITKA_VERSION "0.0.2")
 add_definitions(-Wall -g -DZENITKA_VERSION="\\"${ZENITKA_VERSION}\\"")
 
 # subdirs
