@@ -12,7 +12,7 @@ the result. Code is rather ugly, as I've just rewritten Delphi code
 in C, to copy game behavior 1:1, but I hope to improve code quality,
 as well as turn Zenitka into complete game.
 
-PS. `Zenitka' means `air-defence gun' in Russian :)
+PS. `Zenitka' means `air-defence gun' in Russian.
 
 
 Command line arguments

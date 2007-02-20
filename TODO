@@ -38,7 +38,6 @@ Sound
  * Sound support
 
 Other
- * Move to CMake
  * Test under linux
  * Windows build
 

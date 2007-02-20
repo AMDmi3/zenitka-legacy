@@ -1,2 +1,5 @@
-zenitka 0.0.0 unreleased
+zenitka 0.0.1 2007-02-20
 ------------------------
+ * First pre-alpha release
+ * Gameplay 100% similar to original
+ * Still lacks: sound, statistics, menu, highscores
