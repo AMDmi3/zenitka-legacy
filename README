@@ -32,7 +32,7 @@ To build zenitka, you need:
 % cmake .
 % make
 
-* If you want to install gaia systemwide, run:
+* If you want to install zenitka systemwide, run:
 
 % cmake -DWITH_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/usr/local
 % make
