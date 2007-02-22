@@ -49,20 +49,20 @@ struct TGun {
 	int w;
 	int height;
 	int width;
-	int State;
-	int Condition;
+	int state;
+	int condition;
 	int counter;
 };
 
 struct TZenitka {
 	int x;
 	int y;
-	int centerX;
-	int centerY;
-	int State;
+	int centerx;
+	int centery;
+	int state;
 	int height;
 	int width;
-	struct TGun Gun;
+	struct TGun gun;
 };
 
 struct TBullet {
@@ -70,10 +70,10 @@ struct TBullet {
 	int y;
 	int w;
 	int condition;
-	int State;
-	int SpeedX;
-	int SpeedY;
-	int Radius;
+	int state;
+	int speedx;
+	int speedy;
+	int radius;
 };
 
 #define FreeForFire 0
@@ -82,10 +82,10 @@ struct TBullet {
 #define MaxBullets 20
 
 struct TBackGround {
-	int State;
-	int Freq;
-	int Exist;
-	int Count;
+	int state;
+	int freq;
+	int exist;
+	int count;
 };
 
 struct TTractor {
@@ -94,11 +94,11 @@ struct TTractor {
 	int width;
 	int height;
 	int speed;
-	int State;
-	int Freq;
-	int Counter;
-	int Count;
-	int Interval;
+	int state;
+	int freq;
+	int counter;
+	int count;
+	int interval;
 };
 
 #define TractorMaxStates 4
@@ -109,8 +109,8 @@ struct THelicopter {
 	int width;
 	int height;
 	int condition;
-	int State;
-	int Direction;
+	int state;
+	int direction;
 	int Angle;
 	int count;
 	int vintFreq;
@@ -130,8 +130,8 @@ struct TPlane {
 	int width;
 	int height;
 	int condition;
-	int State;
-	int Direction;
+	int state;
+	int direction;
 	int count;
 };
 
@@ -141,17 +141,17 @@ struct TPlane {
 #define Explosion 2
 
 struct TFragment {
-	int X;
-	int Y;
-	int Width;
-	int Height;
-	int SpeedY;
-	int SpeedX;
-	int Angle;
-	int AngleSpeed;
-	int Condition;
-	int FragmentTip;
-	int AntiGlukTip;
+	int x;
+	int y;
+	int width;
+	int height;
+	int speedy;
+	int speedx;
+	int angle;
+	int anglespeed;
+	int condition;
+	int fragmenttip;
+	int antigluktip;
 };
 
 #define Hvost 1
@@ -166,16 +166,16 @@ struct TFragment {
 struct TParatrooper {
 	int x;
 	int y;
-	float Realy;
+	float realy;
 	int width;
 	int height;
-	int speedX;
-	float speedY;
+	int speedx;
+	float speedy;
 	int condition;
-	int State;
+	int state;
 	int count;
-	int OpenFreq;
-	int FlyFreq;
+	int openfreq;
+	int flyfreq;
 };
 
 #define MaxParaTroopers 8
@@ -192,15 +192,15 @@ struct TLandtrooper {
 	int y;
 	int width;
 	int height;
-	int speedX;
-	int speedY;
+	int speedx;
+	int speedy;
 	int condition;
 	int state;
 	int count;
 	int dir;
-	int LandingFreq;
-	int SmokingFreq;
-	int RunFreq;
+	int landingfreq;
+	int smokingfreq;
+	int runfreq;
 };
 
 #define MaxLandTroopers 4
@@ -216,40 +216,35 @@ struct TLandtrooper {
 #define Run 3
 
 struct TPiece {
-	int X;
-	int Y;
-	int Width;
-	int Height;
-	int SpeedY;
-	int SpeedX;
-	int Angle;
-	int AngleSpeed;
-	int Condition;
-	int PieceTip;
+	int x;
+	int y;
+	int width;
+	int height;
+	int speedy;
+	int speedx;
+	int angle;
+	int anglespeed;
+	int condition;
+	int piecetip;
 };
 
-#define Head 1
-#define Tors 2
-#define Hand 3
-#define Leg1 4
-#define Leg2 5
 #define MaxPieces 5
 #define MaxMeats 3
 
 struct TBomb {
 	int x;
 	int y;
-	float RealY;
-	float RealX;
+	float realy;
+	float realx;
 	int width;
 	int height;
-	int speedX;
-	int speedY;
-	int speedW;
+	int speedx;
+	int speedy;
+	int speedw;
 	int condition;
-	int W;
-	int targetW;
-	int Direction;
+	int w;
+	int targetw;
+	int direction;
 };
 
 #define MaxBombs 4
@@ -258,19 +253,19 @@ struct TBomb {
 #define BombFall 3
 
 struct TFinalMovie {
-	int Counter;
-	int Movie;
+	int counter;
+	int movie;
 };
 
 struct TBrick {
-	int X;
-	int Y;
-	int Width;
-	int Height;
-	int SpeedY;
-	int SpeedX;
-	int Angle;
-	int AngleSpeed;
+	int x;
+	int y;
+	int width;
+	int height;
+	int speedy;
+	int speedx;
+	int angle;
+	int anglespeed;
 };
 
 #define MaxBrick 400
