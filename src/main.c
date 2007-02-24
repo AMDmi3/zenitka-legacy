@@ -194,21 +194,21 @@ void HelicopterCreate() {
 	if (iHelicoptersCount == iHelicoptersFreq) {
 		iHelicoptersCount = 0;
 
-		for (i = 0; Helicopter[i].condition != FreeForFlight && i < MaxHelicopters; i++);
+		for (i = 0; i < MaxHelicopters && Helicopter[i].condition != FreeForFlight; i++);
 		if (i == MaxHelicopters)
 			return;
+
+		Helicopter[i].condition = Flying;
 
 		if (rand() & 1) {
 			Helicopter[i].direction = HDirectionRight;
 			Helicopter[i].x = -Helicopter[i].width;
 			Helicopter[i].y = 5;
-			Helicopter[i].condition = Flying;
 			Helicopter[i].state = HMaxStates;
 		} else {
 			Helicopter[i].direction = HDirectionLeft;
 			Helicopter[i].x = iPoleWidth;
 			Helicopter[i].y = 100;
-			Helicopter[i].condition = Flying;
 			Helicopter[i].state = 0;
 		}
 	}
@@ -221,50 +221,40 @@ void PlaneCreate() {
 	if (iPlanesCount == iPlanesFreq) {
 		iPlanesCount = 0;
 
-		for (i = 0; Plane[i].condition != FreeForFlight && i < MaxPlanes; i++);
+		for (i = 0; i < MaxPlanes && Plane[i].condition != FreeForFlight; i++);
 		if (i == MaxPlanes)
 			return;
 
-		switch (rand() & 1) {
-		case 0:
+		Plane[i].condition = Flying;
+
+		if (rand() & 1) {
 			Plane[i].direction = PDirectionRight;
 			Plane[i].x = -Plane[i].width;
 			Plane[i].y = 50;
-			Plane[i].condition = Flying;
-			break;
-		case 1:
+		} else {
 			Plane[i].direction = PDirectionLeft;
 			Plane[i].x = iPoleWidth;
 			Plane[i].y = 150;
-			Plane[i].condition = Flying;
-			break;
 		}
 		Statistics.All++;
 	}
 }
 
 void BombCreate(int p) {
-	int i = 0;
+	int i;
 
-	while ((Bomb[i].condition != BombFree) && (Bomb[i].condition != DownOnGround)) {
-		i++;
-		if (i>MaxBombs)
-			return;
-	}
+	for (i = 0; i < MaxBombs && Bomb[i].condition != BombFree && Bomb[i].condition != DownOnGround; i++);
+	if (i == MaxBombs)
+		return;
 
-	switch (Plane[p].direction) {
-	case PDirectionLeft:
-		Bomb[i].x = Plane[p].x+83;
-		Bomb[i].y = Plane[p].y+35;
+	/* XXX: independent from direction, is this ok? */
+	Bomb[i].x = Plane[p].x+83;
+	Bomb[i].y = Plane[p].y+35;
+
+	if (Plane[p].direction == PDirectionLeft)
 		Bomb[i].w = 126;
-
-		break;
-	case PDirectionRight:
-		Bomb[i].x = Plane[p].x+83;
-		Bomb[i].y = Plane[p].y+35;
+	else
 		Bomb[i].w = 2;
-		break;
-	}
 
 	Bomb[i].speedx = (int)(cos((float)Bomb[i].w/128.0*3.14)*iBombSpeed + 0.5);
 	Bomb[i].speedy = (int)(sin((float)Bomb[i].w/128.0*3.14)*iBombSpeed + 0.5);
@@ -284,20 +274,14 @@ void PlaneMove() {
 	int i;
 	for (i = 0; i < MaxPlanes; i++) {
 		if (Plane[i].condition == Flying) {
-			switch (Plane[i].direction) {
-			case PDirectionRight:
+			if (Plane[i].direction == PDirectionRight) {
 				Plane[i].x = Plane[i].x+iPlaneSpeed;
 				if ((Plane[i].x<29+iPlaneSpeed) && (Plane[i].x>30))
 					BombCreate(i);
-
-				break;
-
-			case PDirectionLeft:
+			} else {
 				Plane[i].x = Plane[i].x-iPlaneSpeed;
 				if ((Plane[i].x+Plane[i].width > iPoleWidth-29-iPlaneSpeed) && (Plane[i].x+Plane[i].width<iPoleWidth-30))
 					BombCreate(i);
-
-				break;
 			}
 
 			DrawSprite(g_SurfacePlane[Plane[i].direction], Plane[i].x, Plane[i].y);
@@ -312,25 +296,18 @@ void ParatrooperCreate(int h) {
 	if (iParatroopersCount == iParatroopersFreq) {
 		iParatroopersCount = 0;
 		if (((Helicopter[h].x > iBorder1) && (Helicopter[h].x<iBorder2)) || ((Helicopter[h].x>iBorder3) && (Helicopter[h].x<iBorder4))) {
-			i = 0;
-			while (Paratrooper[i].condition != ParaFree) {
-				i++;
-				if (i >= MaxParaTroopers)
-					return;
-			}
+			for (i = 0; i < MaxParaTroopers && Paratrooper[i].condition != ParaFree; i++);
+			if (i == MaxParaTroopers)
+				return;
 
-			switch (Helicopter[h].direction) {
-			case HDirectionLeft:
+			if (Helicopter[h].direction == HDirectionLeft) {
 				Paratrooper[i].x = Helicopter[h].x+40;
-				Paratrooper[i].y = Helicopter[h].y+28;
 				Paratrooper[i].speedx = -iHelicopterSpeed;
-				break;
-
-			case HDirectionRight:
+			} else {
 				Paratrooper[i].x = Helicopter[h].x+62;
-				Paratrooper[i].y = Helicopter[h].y+28;
 				Paratrooper[i].speedx = iHelicopterSpeed;
 			}
+			Paratrooper[i].y = Helicopter[h].y+28;
 
 			Paratrooper[i].state = 0;
 			Paratrooper[i].condition = ParaOpen;
@@ -347,8 +324,7 @@ void ParatrooperCreate(int h) {
 void ParatrooperMove() {
 	int i;
 	for (i = 0; i < MaxParaTroopers; i++) {
-		switch (Paratrooper[i].condition) {
-		case ParaOpen:
+		if (Paratrooper[i].condition == ParaOpen) {
 			Paratrooper[i].y = (int)(Paratrooper[i].realy + 0.5);
 
 			DrawSprite(g_SurfaceParaopen[Paratrooper[i].state], Paratrooper[i].x, Paratrooper[i].y);
@@ -379,9 +355,7 @@ void ParatrooperMove() {
 					Paratrooper[i].height = g_SurfaceParafly[0]->h;
 				}
 			}
-			break;
-
-		case ParaFly:
+		} else if (Paratrooper[i].condition == ParaFly) {
 			Paratrooper[i].y = (int)(Paratrooper[i].realy + 0.5);
 
 			DrawSprite(g_SurfaceParafly[Paratrooper[i].state], Paratrooper[i].x, Paratrooper[i].y);
@@ -398,9 +372,7 @@ void ParatrooperMove() {
 					Paratrooper[i].state = 0;
 				}
 			}
-			break;
-
-		case ParaFall:
+		} else if (Paratrooper[i].condition == ParaFall) {
 			Paratrooper[i].y = (int)(Paratrooper[i].realy + 0.5);
 
 			DrawSprite(g_SurfaceParafall, Paratrooper[i].x, Paratrooper[i].y);
@@ -417,19 +389,13 @@ void HelicopterMove() {
 	for (i = 0; i < MaxHelicopters; i++) {
 		if (Helicopter[i].condition == Flying) {
 			Helicopter[i].state++;
-			if (Helicopter[i].state >= Helicopter[i].direction + HMaxStates) {
+			if (Helicopter[i].state >= Helicopter[i].direction + HMaxStates)
 				Helicopter[i].state = Helicopter[i].direction;
-			}
 
-			switch (Helicopter[i].direction) {
-			case HDirectionRight:
+			if (Helicopter[i].direction == HDirectionRight)
 				Helicopter[i].x = Helicopter[i].x + iHelicopterSpeed;
-				break;
-
-			case HDirectionLeft:
+			else
 				Helicopter[i].x = Helicopter[i].x - iHelicopterSpeed;
-				break;
-			}
 
 			DrawSprite(g_SurfaceHeli[Helicopter[i].state], Helicopter[i].x, Helicopter[i].y);
 
@@ -454,7 +420,7 @@ void BackgroundMove() {
 }
 
 void MeatMove() {
-	int i, t;
+	int i;
 	for (i = 0; i < MaxPieces*MaxMeats; i++) {
 		if (Meat[i].condition == Flying) {
 			Meat[i].speedy = Meat[i].speedy + G;
@@ -464,13 +430,9 @@ void MeatMove() {
 			Meat[i].x = Meat[i].x+Meat[i].speedx;
 			Meat[i].angle = Meat[i].angle+Meat[i].anglespeed;
 
-			t = Meat[i].piecetip;
-
-			DrawRotatedSprite(g_SurfaceMeat[t], Meat[i].x, Meat[i].y, 0.5, 0.5, Meat[i].angle/128.0*3.15);
+			DrawRotatedSprite(g_SurfaceMeat[Meat[i].piecetip], Meat[i].x, Meat[i].y, 0.5, 0.5, Meat[i].angle/128.0*3.15);
 		} else if (Meat[i].condition == DownOnGround) {
-			t = Meat[i].piecetip;
-
-			DrawRotatedSprite(g_SurfaceMeat[t], Meat[i].x, Meat[i].y, 0.5, 0.5, Meat[i].angle/128.0*3.15);
+			DrawRotatedSprite(g_SurfaceMeat[Meat[i].piecetip], Meat[i].x, Meat[i].y, 0.5, 0.5, Meat[i].angle/128.0*3.15);
 		}
 	}
 }
@@ -479,16 +441,16 @@ void ZenitkaFire() {
 	int i;
 	/* if (Zenitka.gun.condition=FreeForFire) { */
 	Zenitka.gun.condition = Firing;
-	i = 0;
-	while (Bullet[i].condition != FreeForFire) {
-		i = i+1;
-	}	/* Возможен глюк если чувак умудриться выпулить 15 пуль */
+
+	for (i = 0; i < MaxBullets && Bullet[i].condition != FreeForFire; i++);
+	if (i == MaxBullets)
+		return;
+
 	Bullet[i].condition = Flying;
 	Bullet[i].x = iPoleWidth / 2 + (int)(sin((float)Zenitka.gun.w/128.0*3.14)*60.0 + 0.5);
 	Bullet[i].y = iPoleHeight - Zenitka.height + 30 - (int)(cos((float)Zenitka.gun.w/128.0*3.14)*60.0 + 0.5);
-	Bullet[i].w = Zenitka.gun.w;
-	Bullet[i].speedx = (int)((float)sin(Bullet[i].w/128.0*3.14)*(float)iBulletSpeed + 0.5);
-	Bullet[i].speedy = -(int)((float)cos(Bullet[i].w/128.0*3.14)*(float)iBulletSpeed + 0.5);
+	Bullet[i].speedx = (int)((float)sin(Zenitka.gun.w/128.0*3.14)*(float)iBulletSpeed + 0.5);
+	Bullet[i].speedy = -(int)((float)cos(Zenitka.gun.w/128.0*3.14)*(float)iBulletSpeed + 0.5);
 	//PlaySound(iPoleWidth div 2,'GunFire');
 	Statistics.BFired++;
 	//}
@@ -571,11 +533,9 @@ void HWreckageCreate(int h) {
 		if (Helicopter[h].direction == HDirectionLeft) {
 			Wreckage[i+j].angle = 0;
 			Wreckage[i+j].speedx = -rand() % 5;
-			Wreckage[i+j].x = Wreckage[i+j].x;
 		} else {
 			Wreckage[i+j].angle = 100;
 			Wreckage[i+j].speedx = rand() % 5;
-			Wreckage[i+j].x = Wreckage[i+j].x;
 		}
 	}
 }
@@ -612,7 +572,7 @@ void PWreckageCreate(int p) {
 }
 
 void WreckageMove() {
-	int i, t;
+	int i;
 	for (i = 0; i < MaxFragments*MaxWreckages; i++) {
 		if (Wreckage[i].condition == Flying) {
 			Wreckage[i].speedy = Wreckage[i].speedy + G;
@@ -621,13 +581,9 @@ void WreckageMove() {
 			Wreckage[i].x = Wreckage[i].x+Wreckage[i].speedx;
 			Wreckage[i].angle = Wreckage[i].angle+Wreckage[i].anglespeed;
 
-			t = Wreckage[i].fragmenttip;
-
-			DrawRotatedSprite(g_SurfaceWreckage[t], Wreckage[i].x, Wreckage[i].y, 0.5, 0.5, Wreckage[i].angle/128.0*3.14);
+			DrawRotatedSprite(g_SurfaceWreckage[Wreckage[i].fragmenttip], Wreckage[i].x, Wreckage[i].y, 0.5, 0.5, Wreckage[i].angle/128.0*3.14);
 		} else if (Wreckage[i].condition == DownOnGround) {
-			t = Wreckage[i].fragmenttip;
-
-			DrawRotatedSprite(g_SurfaceWreckage[t], Wreckage[i].x, Wreckage[i].y, 0.5, 0.5, Wreckage[i].angle/128.0*3.14);
+			DrawRotatedSprite(g_SurfaceWreckage[Wreckage[i].fragmenttip], Wreckage[i].x, Wreckage[i].y, 0.5, 0.5, Wreckage[i].angle/128.0*3.14);
 		}
 	}
 }
@@ -701,9 +657,9 @@ void ParatrooperKilled(int i, int b) {
 		//PlaySound(ParaTrooper[i].x,'aaarch');
 	}	
 
-	 if (Paratrooper[i].condition == ParaFall) {
+	if (Paratrooper[i].condition == ParaFall) {
 		//PlaySound(ParaTrooper[i].x,'shlep');
-	 }
+	}
 
 	Paratrooper[i].condition = ParaFree;
 	MeatCreate(i,b);
@@ -727,14 +683,13 @@ void ParatrooperBallonPopped(int i) {
 }
 
 void LandTrooperCreate(int p) {
+	int i;
+
 	Paratrooper[p].condition = ParaFree;
 
-	int i = 0;
-	while (Landtrooper[i].condition != ParaFree) {
-		i = i+1;
-		if (i >= MaxLandTroopers)
-			return;
-	}
+	for (i = 0; i < MaxLandTroopers && Landtrooper[i].condition != ParaFree; i++);
+	if (i == MaxLandTroopers)
+		return;
 
 	Landtrooper[i].x = Paratrooper[p].x;
 	Landtrooper[i].state = 0;
@@ -808,47 +763,30 @@ void Clash() {
 
 			/* to heli */
 			for (j = 0; j < MaxHelicopters; j++)
-				if (Helicopter[j].condition == Flying && BulletGet(Helicopter[j].x, Helicopter[j].y, Helicopter[j].width + Helicopter[j].x, Helicopter[j].height/2 + Helicopter[j].y, i)) {
-					/* Bullet[i].condition = FreeForFire; */
+				if (Helicopter[j].condition == Flying && BulletGet(Helicopter[j].x, Helicopter[j].y, Helicopter[j].width + Helicopter[j].x, Helicopter[j].height/2 + Helicopter[j].y, i))
 					HelicopterExplosion(j);
-				}
 
 			/* to plane */
 			for (j = 0; j < MaxPlanes; j++)
-				if (Plane[j].condition == Flying && BulletGet(Plane[j].x, Plane[j].y, Plane[j].width + Plane[j].x, Plane[j].height/2 + Plane[j].y, i)) {
-					/* Bullet[i].condition = FreeForFire; */
+				if (Plane[j].condition == Flying && BulletGet(Plane[j].x, Plane[j].y, Plane[j].width + Plane[j].x, Plane[j].height/2 + Plane[j].y, i))
 					PlaneExplosion(j);
-				}
 
 			/* to Bomb */
 			for (j = 0; j < MaxBombs; j++)
 				if (Bomb[j].condition == BombFly && BulletGet(Bomb[j].x - Bomb[j].width / 3, Bomb[j].y - Bomb[j].width / 3,
-						(int)(Bomb[j].x + Bomb[j].width*2/3.0 + 0.5), (int)(Bomb[j].y + Bomb[j].width*2/3.0 + 0.5), i)) {
+						(int)(Bomb[j].x + Bomb[j].width*2/3.0 + 0.5), (int)(Bomb[j].y + Bomb[j].width*2/3.0 + 0.5), i))
 					BombClash(j, i);
-				}
 
 			/* to Paratrooper */
 			for (j = 0; j < MaxParaTroopers; j++)
 				if (BulletGet(Paratrooper[j].x, Paratrooper[j].y, Paratrooper[j].width + Paratrooper[j].x, Paratrooper[j].height + Paratrooper[j].y, i)) {
-					switch(Paratrooper[j].condition) {
-					case ParaFly:
-					case ParaOpen:
-						if (Bullet[i].y < (Paratrooper[j].y + 2*Paratrooper[j].height/3)) {
-							/* to parashute */
-							/* Bullet[i].condition = FreeForFire; */
+					if (Paratrooper[j].condition == ParaFly || Paratrooper[j].condition == ParaOpen) {
+						if (Bullet[i].y < (Paratrooper[j].y + 2*Paratrooper[j].height/3)) /* to parashute */
 							ParatrooperBallonPopped(j);
-						} else {
-							/* to body */
-							/* Bullet[i].condition = FreeForFire; */
+						else /* to body */
 							ParatrooperKilled(j,i);
-						}
-						break;
-
-					case ParaFall:
-						/* Bullet[i].condition = FreeForFire; */
+					} else if (Paratrooper[j].condition == ParaFall)
 						ParatrooperKilled(j,i);
-						break;
-					}
 				}
 		}
 	}
@@ -1031,9 +969,9 @@ void LandtrooperMove() {
 				Landtrooper[i].count = 0;
 
 				Landtrooper[i].state++;
-				if (Landtrooper[i].state>MaxSmokingState) {
+				if (Landtrooper[i].state>MaxSmokingState)
 					Landtrooper[i].state = 0;
-				}
+
 				Landtrooper[i].y = iPoleHeight - g_SurfaceParasmoke[Landtrooper[i].state]->h;
 			}
 			break;

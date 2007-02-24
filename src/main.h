@@ -21,6 +21,11 @@
 #ifndef __ZENITKA_MAIN_H__
 #define __ZENITKA_MAIN_H__
 
+enum Direction {
+	DIRECTION_LEFT,
+	DIRECTION_RIGHT
+};
+
 /* types / consts */
 
 struct TStatistics {
@@ -68,7 +73,6 @@ struct TZenitka {
 struct TBullet {
 	int x;
 	int y;
-	int w;
 	int condition;
 	int state;
 	int speedx;
@@ -111,7 +115,6 @@ struct THelicopter {
 	int condition;
 	int state;
 	int direction;
-	int Angle;
 	int count;
 	int vintFreq;
 };
@@ -151,14 +154,8 @@ struct TFragment {
 	int anglespeed;
 	int condition;
 	int fragmenttip;
-	int antigluktip;
 };
 
-#define Hvost 1
-#define Korpus 2
-#define Plato 3
-#define Steklo 4
-#define Vint 5
 #define DownOnGround 10
 #define MaxFragments 5
 #define MaxWreckages 3
