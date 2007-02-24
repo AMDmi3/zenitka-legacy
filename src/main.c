@@ -248,8 +248,8 @@ void BombCreate(int p) {
 		return;
 
 	/* XXX: independent from direction, is this ok? */
-	Bomb[i].x = Plane[p].x+83;
-	Bomb[i].y = Plane[p].y+35;
+	Bomb[i].x = Plane[p].x + 83;
+	Bomb[i].y = Plane[p].y + 35;
 
 	if (Plane[p].direction == PDirectionLeft)
 		Bomb[i].w = 126;
@@ -275,12 +275,12 @@ void PlaneMove() {
 	for (i = 0; i < MaxPlanes; i++) {
 		if (Plane[i].condition == Flying) {
 			if (Plane[i].direction == PDirectionRight) {
-				Plane[i].x = Plane[i].x+iPlaneSpeed;
-				if ((Plane[i].x<29+iPlaneSpeed) && (Plane[i].x>30))
+				Plane[i].x += iPlaneSpeed;
+				if ((Plane[i].x < 29 + iPlaneSpeed) && (Plane[i].x > 30))
 					BombCreate(i);
 			} else {
-				Plane[i].x = Plane[i].x-iPlaneSpeed;
-				if ((Plane[i].x+Plane[i].width > iPoleWidth-29-iPlaneSpeed) && (Plane[i].x+Plane[i].width<iPoleWidth-30))
+				Plane[i].x -= iPlaneSpeed;
+				if ((Plane[i].x + Plane[i].width > iPoleWidth - 29 - iPlaneSpeed) && (Plane[i].x + Plane[i].width < iPoleWidth - 30))
 					BombCreate(i);
 			}
 
@@ -295,16 +295,16 @@ void ParatrooperCreate(int h) {
 
 	if (iParatroopersCount == iParatroopersFreq) {
 		iParatroopersCount = 0;
-		if (((Helicopter[h].x > iBorder1) && (Helicopter[h].x<iBorder2)) || ((Helicopter[h].x>iBorder3) && (Helicopter[h].x<iBorder4))) {
+		if (((Helicopter[h].x > iBorder1) && (Helicopter[h].x < iBorder2)) || ((Helicopter[h].x > iBorder3) && (Helicopter[h].x < iBorder4))) {
 			for (i = 0; i < MaxParaTroopers && Paratrooper[i].condition != ParaFree; i++);
 			if (i == MaxParaTroopers)
 				return;
 
 			if (Helicopter[h].direction == HDirectionLeft) {
-				Paratrooper[i].x = Helicopter[h].x+40;
+				Paratrooper[i].x = Helicopter[h].x + 40;
 				Paratrooper[i].speedx = -iHelicopterSpeed;
 			} else {
-				Paratrooper[i].x = Helicopter[h].x+62;
+				Paratrooper[i].x = Helicopter[h].x + 62;
 				Paratrooper[i].speedx = iHelicopterSpeed;
 			}
 			Paratrooper[i].y = Helicopter[h].y+28;
@@ -329,8 +329,8 @@ void ParatrooperMove() {
 
 			DrawSprite(g_SurfaceParaopen[Paratrooper[i].state], Paratrooper[i].x, Paratrooper[i].y);
 
-			Paratrooper[i].x = Paratrooper[i].x + Paratrooper[i].speedx;
-			Paratrooper[i].realy = Paratrooper[i].realy + Paratrooper[i].speedy;
+			Paratrooper[i].x += Paratrooper[i].speedx;
+			Paratrooper[i].realy += Paratrooper[i].speedy;
 
 			if (Paratrooper[i].speedy < iParaFallSpeedBorder)
 				Paratrooper[i].speedy += G;
@@ -340,7 +340,7 @@ void ParatrooperMove() {
 				Paratrooper[i].count = 0;
 
 				if (Paratrooper[i].speedx != 0)
-					Paratrooper[i].speedx = Paratrooper[i].speedx/2;
+					Paratrooper[i].speedx /= 2;
 
 				Paratrooper[i].width = g_SurfaceParaopen[Paratrooper[i].state]->w;
 				Paratrooper[i].height = g_SurfaceParaopen[Paratrooper[i].state]->h;
@@ -360,7 +360,7 @@ void ParatrooperMove() {
 
 			DrawSprite(g_SurfaceParafly[Paratrooper[i].state], Paratrooper[i].x, Paratrooper[i].y);
 
-			Paratrooper[i].realy = Paratrooper[i].realy + iParaFlySpeed;
+			Paratrooper[i].realy += iParaFlySpeed;
 
 			Paratrooper[i].count++;
 
@@ -377,7 +377,7 @@ void ParatrooperMove() {
 
 			DrawSprite(g_SurfaceParafall, Paratrooper[i].x, Paratrooper[i].y);
 
-			Paratrooper[i].realy = Paratrooper[i].realy + iParaFallSpeed;
+			Paratrooper[i].realy += iParaFallSpeed;
 
 			Paratrooper[i].count++;
 		}
@@ -393,9 +393,9 @@ void HelicopterMove() {
 				Helicopter[i].state = Helicopter[i].direction;
 
 			if (Helicopter[i].direction == HDirectionRight)
-				Helicopter[i].x = Helicopter[i].x + iHelicopterSpeed;
+				Helicopter[i].x += iHelicopterSpeed;
 			else
-				Helicopter[i].x = Helicopter[i].x - iHelicopterSpeed;
+				Helicopter[i].x -= iHelicopterSpeed;
 
 			DrawSprite(g_SurfaceHeli[Helicopter[i].state], Helicopter[i].x, Helicopter[i].y);
 
@@ -425,10 +425,10 @@ void MeatMove() {
 		if (Meat[i].condition == Flying) {
 			Meat[i].speedy = Meat[i].speedy + G;
 			if (abs(Meat[i].speedx) > 3)
-				Meat[i].speedx = Meat[i].speedx / 2;
-			Meat[i].y = Meat[i].y+Meat[i].speedy;
-			Meat[i].x = Meat[i].x+Meat[i].speedx;
-			Meat[i].angle = Meat[i].angle+Meat[i].anglespeed;
+				Meat[i].speedx /= 2;
+			Meat[i].y += Meat[i].speedy;
+			Meat[i].x += Meat[i].speedx;
+			Meat[i].angle += Meat[i].anglespeed;
 
 			DrawRotatedSprite(g_SurfaceMeat[Meat[i].piecetip], Meat[i].x, Meat[i].y, 0.5, 0.5, Meat[i].angle/128.0*3.15);
 		} else if (Meat[i].condition == DownOnGround) {
@@ -465,10 +465,10 @@ void ZenitkaMove() {
 		if (FM.movie < 2) {
 			if (g_ButtonLeft)
 				if (Zenitka.gun.w > -AngleBorder)
-					Zenitka.gun.w = Zenitka.gun.w - iGunWSpeed;
+					Zenitka.gun.w -= iGunWSpeed;
 			if (g_ButtonRight)
 				if (Zenitka.gun.w < AngleBorder)
-					Zenitka.gun.w = Zenitka.gun.w + iGunWSpeed;
+					Zenitka.gun.w += iGunWSpeed;
 			if (g_ButtonFire) {
 				/*Zenitka.gun.condition = FreeForFire; */
 
@@ -501,8 +501,8 @@ void BulletMove() {
 		if (Bullet[i].condition == Flying) {
 			DrawSprite(g_SurfaceBullet[0], Bullet[i].x - Bullet[i].radius, Bullet[i].y - Bullet[i].radius);
 
-			Bullet[i].x = Bullet[i].x + Bullet[i].speedx;
-			Bullet[i].y = Bullet[i].y + Bullet[i].speedy;
+			Bullet[i].x += Bullet[i].speedx;
+			Bullet[i].y += Bullet[i].speedy;
 		}
 	}
 }
@@ -543,7 +543,7 @@ void HWreckageCreate(int h) {
 void PWreckageCreate(int p) {
 	int i, j;
 
-	iCurrentWreckage = iCurrentWreckage+1;
+	iCurrentWreckage = iCurrentWreckage + 1;
 
 	if (iCurrentWreckage >= MaxWreckages)
 		iCurrentWreckage = 0;
@@ -554,8 +554,8 @@ void PWreckageCreate(int p) {
 //		Wreckage[i+j].width = g_SurfaceWreckage[MaxFragments+j]->w;
 //		Wreckage[i+j].height = g_SurfaceWreckage[MaxFragments+j]->h;
 
-		Wreckage[i+j].x = Plane[p].x+Plane[p].width / 2;
-		Wreckage[i+j].y = Plane[p].y+Plane[p].height / 2;
+		Wreckage[i+j].x = Plane[p].x + Plane[p].width / 2;
+		Wreckage[i+j].y = Plane[p].y + Plane[p].height / 2;
 		Wreckage[i+j].speedy = -rand() % 20;
 		Wreckage[i+j].anglespeed = rand() % 30;
 		Wreckage[i+j].condition = Flying;
@@ -577,9 +577,9 @@ void WreckageMove() {
 		if (Wreckage[i].condition == Flying) {
 			Wreckage[i].speedy = Wreckage[i].speedy + G;
 
-			Wreckage[i].y = Wreckage[i].y+Wreckage[i].speedy;
-			Wreckage[i].x = Wreckage[i].x+Wreckage[i].speedx;
-			Wreckage[i].angle = Wreckage[i].angle+Wreckage[i].anglespeed;
+			Wreckage[i].y += Wreckage[i].speedy;
+			Wreckage[i].x += Wreckage[i].speedx;
+			Wreckage[i].angle = Wreckage[i].angle + Wreckage[i].anglespeed;
 
 			DrawRotatedSprite(g_SurfaceWreckage[Wreckage[i].fragmenttip], Wreckage[i].x, Wreckage[i].y, 0.5, 0.5, Wreckage[i].angle/128.0*3.14);
 		} else if (Wreckage[i].condition == DownOnGround) {
@@ -826,9 +826,9 @@ void Clash() {
 			/* to ground */
 			if (Bomb[i].y > iPoleHeight) {
 				Bomb[i].realy = iPoleHeight;
-				Bomb[i].speedx = Bomb[i].speedx / 2;
-				Bomb[i].speedw = Bomb[i].speedw / 2;
-				Bomb[i].speedy = -(Bomb[i].speedy / 2);
+				Bomb[i].speedx /= 2;
+				Bomb[i].speedw /= 2;
+				Bomb[i].speedy /= -2;
 				if (abs(Bomb[i].speedy) > 1) {
 					// PlaySound(Bomb[i].x,'Bum')
 				} else {
@@ -843,7 +843,7 @@ void Clash() {
 	for (i = 0; i < MaxParaTroopers; i++) {
 		switch (Paratrooper[i].condition) {
 		case ParaFly:
-			if (Paratrooper[i].y+Paratrooper[i].height > iPoleHeight)
+			if (Paratrooper[i].y + Paratrooper[i].height > iPoleHeight)
 				LandTrooperCreate(i);
 			break;
 
@@ -852,20 +852,20 @@ void Clash() {
 				//PlaySound(ParaTrooper[i].x,'FallDown');
 			}
 
-			if (Paratrooper[i].y>iPoleHeight)
-				if (Paratrooper[i].condition==ParaFall)
-					ParatrooperKilled(i,0);
+			if (Paratrooper[i].y > iPoleHeight)
+				if (Paratrooper[i].condition == ParaFall)
+					ParatrooperKilled(i, 0);
 			break;
 		}
 	}
 
 	/* wreckage fall */
-	for (i = 0; i < MaxWreckages*MaxFragments; i++) {
+	for (i = 0; i < MaxWreckages * MaxFragments; i++) {
 		if (Wreckage[i].condition == Flying) {
 			if (Wreckage[i].y > iPoleHeight) {
 				Wreckage[i].y = iPoleHeight;
-				Wreckage[i].speedx = Wreckage[i].speedx / 2;
-				Wreckage[i].anglespeed = Wreckage[i].anglespeed / 2;
+				Wreckage[i].speedx /= 2;
+				Wreckage[i].anglespeed /= 2;
 				Wreckage[i].speedy = -(Wreckage[i].speedy / 2);
 				if (abs(Wreckage[i].speedy) > 2){
 					//PlaySound(wreckage[i].x,'Bum')
@@ -893,18 +893,18 @@ void BombMove() {
 				Bomb[i].targetw = 74;
 
 			if (Bomb[i].direction == PDirectionLeft)
-				Bomb[i].w = Bomb[i].w - Bomb[i].speedw;
+				Bomb[i].w -= Bomb[i].speedw;
 
 			if (Bomb[i].direction == PDirectionRight)
-				Bomb[i].w = Bomb[i].w + Bomb[i].speedw;
+				Bomb[i].w += Bomb[i].speedw;
 
 			if ((Bomb[i].w < Bomb[i].targetw + Bomb[i].speedw) && (Bomb[i].w > Bomb[i].targetw - Bomb[i].speedw))
 				Bomb[i].speedw = 0;
 
 			Bomb[i].speedx = (int)(cos((float)Bomb[i].w/128.0*3.14)*iBombSpeed);
 			Bomb[i].speedy = (int)(sin((float)Bomb[i].w/128.0*3.14)*iBombSpeed);
-			Bomb[i].realy = Bomb[i].realy + Bomb[i].speedy;
-			Bomb[i].realx = Bomb[i].realx + Bomb[i].speedx;
+			Bomb[i].realy += Bomb[i].speedy;
+			Bomb[i].realx += Bomb[i].speedx;
 			break;
 
 		case BombFall:
@@ -914,9 +914,9 @@ void BombMove() {
 			DrawRotatedSprite(g_SurfaceBomb, Bomb[i].x, Bomb[i].y, 0.5, 0.5, Bomb[i].w/128.0*3.14);
 
 			Bomb[i].speedy = Bomb[i].speedy + G;
-			Bomb[i].realy = Bomb[i].realy + Bomb[i].speedy;
-			Bomb[i].realx = Bomb[i].realx + Bomb[i].speedx;
-			Bomb[i].w = Bomb[i].w + Bomb[i].speedw;
+			Bomb[i].realy += Bomb[i].speedy;
+			Bomb[i].realx += Bomb[i].speedx;
+			Bomb[i].w += Bomb[i].speedw;
 			break;
 
 		case DownOnGround:
@@ -984,12 +984,12 @@ void NextLevel() {
 	case 1:
 	case 2:
 	case 3:
-		iHelicoptersFreq = iHelicoptersFreq - 9;
-		iParatroopersFreq = iParatroopersFreq - 9;
+		iHelicoptersFreq -= 9;
+		iParatroopersFreq -= 9;
 		iHelicoptersCount = 0;
 		iParatroopersCount = 0;
-		iParaFlySpeed = iParaFlySpeed + 0.1;
-		Tractor.interval = Tractor.interval + 500;
+		iParaFlySpeed += 0.1;
+		Tractor.interval += 500;
 		break;
 
 	case 4:
@@ -1002,7 +1002,7 @@ void NextLevel() {
 	case 5:
 		iHelicoptersCount = 0;
 		iHelicoptersFreq = 20;
-		iParatroopersFreq = iParatroopersFreq - 9;
+		iParatroopersFreq -= 9;
 		iHelicoptersCount = 0;
 		iParatroopersCount = 0;
 		iPlanesFreq = 0;
@@ -1011,20 +1011,20 @@ void NextLevel() {
 
 	case 6:
 		iHelicopterSpeed++;
-		iParaFlySpeed = iParaFlySpeed + 0.2;
-		iParaFallSpeedBorder = iParaFallSpeedBorder + 1;
+		iParaFlySpeed += 0.2;
+		iParaFallSpeedBorder++;
 		iPlanesCount = 0;
 		iPlanesFreq = 130;
 		break;
 
 	case 7:
-		iParaFlySpeed = iParaFlySpeed + 0.3;
+		iParaFlySpeed += 0.3;
 		iPlanesCount = 0;
 		iPlanesFreq = 50;
 		break;
 
 	default:
-		iParaFlySpeed = iParaFlySpeed + 0.1;
+		iParaFlySpeed += 0.1;
 	}
 
 	iLevel++;
@@ -1058,11 +1058,11 @@ void TractorMove() {
 		for (i = 0; i < MaxWreckages*MaxFragments; i++) {
 			if (Wreckage[i].condition == DownOnGround) {
 				if ((Wreckage[i].x >= Tractor.x + Tractor.width - 20) && (Wreckage[i].x <= Tractor.x + Tractor.width + Tractor.speed)) {
-					Wreckage[i].x = Wreckage[i].x + Tractor.speed;
-					Wreckage[i].angle = Wreckage[i].angle + 1;
+					Wreckage[i].x += Tractor.speed;
+					Wreckage[i].angle += 1;
 					if (Wreckage[i].y > iPoleHeight - 20) {
-						Wreckage[i].y = Wreckage[i].y - 1;
-						Wreckage[i].x = Wreckage[i].x - 1;
+						Wreckage[i].x--;
+						Wreckage[i].y--;
 					}
 				}
 			}
@@ -1071,11 +1071,11 @@ void TractorMove() {
 		for (i = 0; i < MaxBombs; i++) {
 			if (Bomb[i].condition == DownOnGround) {
 				if ((Bomb[i].x >= Tractor.x + Tractor.width - 20) && (Bomb[i].x <= Tractor.x + Tractor.width + Tractor.speed)) {
-					Bomb[i].x = Bomb[i].x + Tractor.speed;
-					Bomb[i].w = Bomb[i].w + 1;
+					Bomb[i].x += Tractor.speed;
+					Bomb[i].w++;
 					if (Bomb[i].y > iPoleHeight - 20) {
-						Bomb[i].y = Bomb[i].y - 1;
-						Bomb[i].x = Bomb[i].x - 1;
+						Bomb[i].x--;
+						Bomb[i].y--;
 					}
 				}
 			}
@@ -1139,9 +1139,9 @@ void FinalMovie() {
 				c++;
 			} else {
 				if (Landtrooper[i].dir == HDirectionRight)
-					Landtrooper[i].x = Landtrooper[i].x + 3 + rand() % 2;
+					Landtrooper[i].x += 3 + rand() % 2;
 				if (Landtrooper[i].dir == HDirectionLeft)
-					Landtrooper[i].x = Landtrooper[i].x - 3 - rand() % 2;
+					Landtrooper[i].x -= 3 + rand() % 2;
 			}
 
 			if (c == 4) {
@@ -1219,9 +1219,9 @@ void FinalMovie() {
 			}
 
 			if (Landtrooper[i].dir == HDirectionRight)
-				Landtrooper[i].x = Landtrooper[i].x + 3 + rand() % 3;
+				Landtrooper[i].x += 3 + rand() % 3;
 			if (Landtrooper[i].dir == HDirectionLeft)
-				Landtrooper[i].x = Landtrooper[i].x - 3 - rand() % 3;
+				Landtrooper[i].x -= 3 + rand() % 3;
 
 			DrawSprite(g_SurfacePararun[Landtrooper[i].state], Landtrooper[i].x, Landtrooper[i].y);
 		}
@@ -1257,9 +1257,9 @@ void FinalMovie() {
 			FM.movie = 5;
 		for (i = 0; i < MaxBrick; i++) {
 			Brick[i].speedy = Brick[i].speedy + G;
-			Brick[i].y = Brick[i].y + Brick[i].speedy;
-			Brick[i].x = Brick[i].x + Brick[i].speedx;
-			Brick[i].angle = Brick[i].angle + Brick[i].anglespeed;
+			Brick[i].y += Brick[i].speedy;
+			Brick[i].x += Brick[i].speedx;
+			Brick[i].angle += Brick[i].anglespeed;
 
 			DrawRotatedSprite(g_SurfaceBrick, Brick[i].x, Brick[i].y, 0.5, 0.5, Brick[i].angle/128.0*3.14);
 		}
