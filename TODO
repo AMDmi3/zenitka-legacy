@@ -44,3 +44,4 @@ Other
 BUGS
 ~~~~
  * 4 troops landed -> when 5th's landing, it ugly disappers
+ * Runs slow (needs caching of rotated objects?)
