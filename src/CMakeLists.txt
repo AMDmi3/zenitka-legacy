@@ -20,7 +20,7 @@ if(NOT SDLGFX_INCLUDE_DIR OR NOT SDLGFX_LIBRARY)
 endif(NOT SDLGFX_INCLUDE_DIR OR NOT SDLGFX_LIBRARY)
 
 # defs
-add_definitions(-DDATADIR="\\"${CMAKE_INSTALL_PREFIX}/${DATADIR}\\"")
+add_definitions(-DDATADIR="${CMAKE_INSTALL_PREFIX}/${DATADIR}")
 add_definitions(`${SDL_CONFIG} --cflags`)
 
 # sources
@@ -28,7 +28,11 @@ file(GLOB zenitka_SRCS *.c)
 
 # targets
 add_executable(zenitka ${zenitka_SRCS})
-target_link_libraries(zenitka `${SDL_CONFIG} --libs` ${SDLIMAGE_LIBRARY} ${SDLGFX_LIBRARY})
+target_link_libraries(zenitka ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} ${SDLGFX_LIBRARY})
+
+if(UNIX)
+  target_link_libraries(zenitka m)
+endif(UNIX)
 
 if(WITH_INSTALL)
 	install(PROGRAMS zenitka DESTINATION ${BINDIR})
