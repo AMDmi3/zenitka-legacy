@@ -2,7 +2,7 @@
 project(zenitka)
 
 # checks
-cmake_minimum_required(VERSION 2.4.0)
+cmake_minimum_required(VERSION 3.11.0)
 
 # options
 option(WITH_INSTALL	"Build for systemwide installation"   OFF)
@@ -22,7 +22,7 @@ endif(WITH_INSTALL)
 
 # defs
 set(ZENITKA_VERSION "0.0.2")
-add_definitions(-Wall -g -DZENITKA_VERSION="\\"${ZENITKA_VERSION}\\"")
+add_definitions(-Wall -g -DZENITKA_VERSION="${ZENITKA_VERSION}")
 
 # subdirs
 subdirs(src)

@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 #include "main.h"
 #include "sprites.h"
@@ -30,8 +31,7 @@ int	g_ButtonRight = 0;
 int	g_ButtonFire = 0;
 
 void InitGame() {
-	/* XXX: non-portable */
-	sranddev();
+	srand(time(NULL));
 
 	/* frame_delay = 30 */
 	iPoleWidth = 640;
@@ -1352,7 +1352,7 @@ int main(int argc, char **argv) {
 	atexit(cleanup);
 
 	if (!LoadBackground("day.jpg") || !LoadSprites()) {
-		warning("Not all images loadede!\n");
+		warning("Not all images loaded!\n");
 		return 1;
 	}
 
